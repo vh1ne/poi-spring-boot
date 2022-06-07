@@ -2,6 +2,7 @@ package com.vh1ne.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -34,7 +35,7 @@ public class ExcelReader {
 				}
 				System.out.println();
 			}
-			workbook.close();
+			((PrintStream) workbook).close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

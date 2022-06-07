@@ -1,27 +1,32 @@
 package com.vh1ne.service;
 
 
-import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.util.IOUtils;
-import org.apache.poi.util.XMLHelper;
-import org.apache.poi.xssf.eventusermodel.XSSFReader;
-import org.apache.poi.xssf.model.SharedStringsTable;
-import org.xml.sax.*;
-import org.xml.sax.helpers.DefaultHandler;
-
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Iterator;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.util.SAXHelper;
+import org.apache.poi.xssf.eventusermodel.XSSFReader;
+import org.apache.poi.xssf.model.SharedStringsTable;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+
 public class SaxEventUserModel {
 
 	public String processSheets(String filename) throws Exception {
 		Instant start = Instant.now();
 		InputStream stream = new FileInputStream(filename);
-		IOUtils.setByteArrayMaxOverride(1000000000);
+	//	IOUtils.setByteArrayMaxOverride(1000000000);
 
 		OPCPackage pkg = OPCPackage.open(stream);
 		XSSFReader r = new XSSFReader(pkg);
@@ -49,7 +54,7 @@ public class SaxEventUserModel {
 	}
 
 	public XMLReader fetchSheetParser(SharedStringsTable sst) throws SAXException, ParserConfigurationException {
-		XMLReader parser = XMLHelper.newXMLReader();
+		XMLReader parser =  SAXHelper.newXMLReader(); 
 		ContentHandler handler = new SheetHandler(sst);
 		parser.setContentHandler(handler);
 		return parser;
@@ -91,7 +96,7 @@ public class SaxEventUserModel {
 			// Do now, as characters() may be called more than once
 			if (nextIsString) {
 				int idx = Integer.parseInt(lastContents);
-				lastContents = sst.getItemAt(idx).getString();
+				lastContents = new XSSFRichTextString(sst.getEntryAt(idx)).toString();;
 				nextIsString = false;
 			}
 			// v => contents of a cell
