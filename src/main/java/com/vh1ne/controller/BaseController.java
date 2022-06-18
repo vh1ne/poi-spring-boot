@@ -18,25 +18,19 @@ import com.vh1ne.service.SaxEventUserModel;
 
 public class BaseController {
 
-	@GetMapping(value = "/poi/new", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<?> poi_new(@RequestParam("path") Optional<String> path) {
-		String fileName = "";
-		String resp = "";
-		try {
-			if (path.isPresent())
-				fileName = path.get();
-			else
-				fileName = "E:\\Downloads\\Chrome Downloads\\Sample_900K.xlsx";
-			// ""E:\\Downloads\\Chrome Downloads\\Sample10K.xlsx";
-			SaxEventUserModel saxEventUserModel = new SaxEventUserModel();
-
-			resp = saxEventUserModel.processSheets(fileName);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return ResponseEntity.status(HttpStatus.OK).body("Resp  " + resp);
-	}
-
+	
+	  @GetMapping(value = "/poi/new", produces = MediaType.TEXT_PLAIN_VALUE) public
+	  ResponseEntity<?> poi_new(@RequestParam("path") Optional<String> path) {
+	  String fileName = ""; String resp = ""; try { if (path.isPresent()) fileName
+	  = path.get(); else fileName =
+	  "E:\\Downloads\\Chrome Downloads\\Sample_900K.xlsx"; //	  ""E:\\Downloads\\Chrome Downloads\\Sample10K.xlsx";"
+	  		 SaxEventUserModel
+	  saxEventUserModel = new SaxEventUserModel();
+	  
+	  resp = saxEventUserModel.processSheets(fileName); } catch (Exception e) {
+	  System.out.println(e.getMessage()); } return
+	  ResponseEntity.status(HttpStatus.OK).body("Resp  " + resp); }
+	 
 	@GetMapping(value = "/poi/old", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<?> poi_old(@RequestParam("path") Optional<String> path) {
 		String fileName = "";
@@ -45,12 +39,17 @@ public class BaseController {
 			if (path.isPresent())
 				fileName = path.get();
 			else
-				fileName = "E:\\Downloads\\Chrome Downloads\\Sample_900K.xlsx";
+				fileName = "E:\\Downloads\\Chrome Downloads\\Test.xlsx";
 			resp = ExcelReader.method(fileName);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("Resp  " + resp);
 	}
+	
+
+	
+	
+	
 
 }
