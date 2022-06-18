@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
@@ -22,7 +23,7 @@ public class LargeExcelReaderApp {
 	}
 
 	// The following method will give error - OutOfMemoryError
-	public static void readLargeExcelFile(final String fileName) throws EncryptedDocumentException, IOException {
+	public static void readLargeExcelFile(final String fileName) throws EncryptedDocumentException, IOException, InvalidFormatException {
 		Instant start = Instant.now();
 		Workbook wb = WorkbookFactory.create(new File(fileName));
 
